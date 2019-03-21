@@ -1,7 +1,6 @@
 #!/usr/bin/env python3.6
 
 import sys
-import codecs
 
 def generateSbox(keystream):
     k = list(keystream)  #keystream als list, ein zeichen pro index
@@ -61,6 +60,7 @@ if __name__== "__main__":
             encryptedStr += chr(encrypted[i])
         print("Encrypted Bytesequence:")
         print(''.join(format(x,'02x') for x in encrypted))
+        sys.exit(0)
 
     elif(sys.argv[1] == "dec"):
         decrypted = decrypt(sys.argv[2], sys.argv[3])
@@ -73,6 +73,7 @@ if __name__== "__main__":
 
         print("Decrypted Bytesequence as ASCII:")
         print(bytes.fromhex(decryptedStr).decode('utf-8'))
+        sys.exit(0)
 
     else:
         print("Usage: python rc4.py [enc|dec] keystream [plaintext|ciphertext]") 
