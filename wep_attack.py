@@ -7,18 +7,23 @@ from collections import Counter
 
 if __name__== "__main__":
     print ("--- WEP Attacker ---")
-    if(len(sys.argv) < 2):
-        print("Usage: python wep_attack.py file")
-        sys.exit(1)
-    if (os.path.isfile(sys.argv[1]) is False):
-        print(sys.argv[1]+" is not a file or does not exist!")
-        sys.exit(2)
+    # if(len(sys.argv) < 2):
+    #     print("Usage: python wep_attack.py file")
+    #     sys.exit(1)
+    # if (os.path.isfile(sys.argv[1]) is False):
+    #     print(sys.argv[1]+" is not a file or does not exist!")
+    #     sys.exit(2)
 
     #Datei öffnen und mit regex ivs füllen
     ivs = list()
     chitexts = bytearray()
-    with open(sys.argv[1], "r") as file:
-        file.readline() #erste line skippen
+    plaintext = bytearray()
+    with open("IVkeystream2019.txt", "r") as file:
+        #Plaintext aus erster Zeile einlesen
+        line = file.readline()
+        plmatch = re.findall('(?<=0x)[0-9a-f]{2}',line)
+        plaintext.extend(bytearray.fromhex(plmatch[0]))
+        #IVs und Chitexte einlesen
         regex = re.compile('[0-9A-F]{2}')    
         for line in file:
             all = regex.findall(line)
@@ -40,21 +45,25 @@ if __name__== "__main__":
         #Schritte 0 bis 1
         for t in range(2):
             i = t
-            j = (j + s[i] + iv[i % n]) % n
+            j = (j + s[i] + iv[t]) % n
             s[i], s[j] = s[j], s[i]  #swap
 
         #Schritt 2
         i += 1
-        j = (j + s[i] + iv[i % n]) % n
+        j = (j + s[i] + iv[2]) % n
 
         #wenn S[0] oder S[1] verändert werden: iv verwerfen
         if(j == 0 or j == 1):
             continue
         s[i], s[j] = s[j], s[i]  #swap
 
+        #z bestimmen
+        z = chitexts[0] ^ plaintext[0]
+        #Nach Z(Chitext) in S2 suchen um j3 zu bestimmen
+        j3 = s.index(z)
+
         #Schritt 3
         #Annahme: S[0], S[1] & S[3] werden in Schritt 3 bis 256 nicht mehr verändert
-        j3 = s[i]
         possibleK = (j3 - j - s[3]) % n
         candidatesForK.append(possibleK)
 
