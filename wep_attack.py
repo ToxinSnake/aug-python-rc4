@@ -31,14 +31,15 @@ if __name__== "__main__":
             chitexts.extend(bytearray.fromhex(all[3]))
 
     #var initialisierung
-    i = 0
-    j = 0
     n = 256
     count = 0
     candidatesForK = list()
     
     #ivs sind nun bytearrays in list
     for iv in ivs:
+
+        i = 0
+        j = 0
 
         #s generieren
         s = [i for i in range(256)] 
