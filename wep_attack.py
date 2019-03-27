@@ -7,18 +7,18 @@ from collections import Counter
 
 if __name__== "__main__":
     print ("--- WEP Attacker ---")
-    # if(len(sys.argv) < 2):
-    #     print("Usage: python wep_attack.py file")
-    #     sys.exit(1)
-    # if (os.path.isfile(sys.argv[1]) is False):
-    #     print(sys.argv[1]+" is not a file or does not exist!")
-    #     sys.exit(2)
+    if(len(sys.argv) < 2):
+        print("Usage: python wep_attack.py file")
+        sys.exit(1)
+    if (os.path.isfile(sys.argv[1]) is False):
+        print(sys.argv[1]+" is not a file or does not exist!")
+        sys.exit(2)
 
     #Datei öffnen und mit regex ivs füllen
     ivs = list()
     chitexts = bytearray()
     plaintext = bytearray()
-    with open("IVkeystream2019.txt", "r") as file:
+    with open(sys.argv[1], "r") as file:
         #Plaintext aus erster Zeile einlesen
         line = file.readline()
         plmatch = re.findall('(?<=0x)[0-9a-f]{2}',line)
