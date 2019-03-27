@@ -34,6 +34,7 @@ if __name__== "__main__":
     i = 0
     j = 0
     n = 256
+    count = 0
     candidatesForK = list()
     
     #ivs sind nun bytearrays in list
@@ -58,7 +59,8 @@ if __name__== "__main__":
         s[i], s[j] = s[j], s[i]  #swap
 
         #z bestimmen
-        z = chitexts[0] ^ plaintext[0]
+        z = chitexts[count] ^ plaintext[0]
+        count += 1
         #Nach Z(Chitext) in S2 suchen um j3 zu bestimmen
         j3 = s.index(z)
 
