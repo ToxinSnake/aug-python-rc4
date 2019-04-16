@@ -1,6 +1,7 @@
 #!/usr/bin/env python3.6
 
 import sys
+import re
 
 def ksa(k):
     s = [i for i in range(256)]
@@ -54,6 +55,11 @@ if __name__== "__main__":
     if(len(sys.argv) < 2):
         print("Usage: python rc4_hash.py password")
         sys.exit(1)
+
+    for v in sys.argv[1]:
+      if(not re.search("[0-9a-fA-F]{1,}",v)):
+        print("Value must be a valid Hex-String!")
+        sys.exit(2)
 
     print("Password: "+sys.argv[1])
     password = strtoarray(sys.argv[1])
