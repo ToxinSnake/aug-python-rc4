@@ -24,19 +24,15 @@ def prga(s):
 
 #String zu Integerarray, addiert jeweils 2 Hex Ziffern und steckt sie an einen Index
 def strtoarray(s):
-  o = [0]*int((len(s)/2))
-  even = 0
-  count = 0
+  o = []
   hexvalue = ''
-  for char in s:
+  for i, char in enumerate(s):
     hexvalue += char
-    if(even % 2 == 0): 
-      even += 1
+    if(i % 2 is 0): 
+      continue
     else:
-      o[count] += int(hexvalue, 16)
+      o.append(int(hexvalue, 16))
       hexvalue = ''
-      even += 1 
-      count += 1
   return o
 
 #Integerarray zu String
@@ -64,26 +60,24 @@ def convertPass(password):
 def paddPass(password):
   if(len(password) >= 3): return password
   else:
-    while (len(password) != 3):
+    while (len(password) is not 3):
       password.insert(0,0)  #an index 0 eine 0 einfügen
     return password
 
 if __name__== "__main__":
   if(len(sys.argv) < 2):
-      print("Usage: python rc4_hash.py password")
-      sys.exit(1)
+    sys.exit("Usage: python rc4_hash.py password")
 
   # Prüfen ob gültige Hexwerte
   for v in sys.argv[1]:
     if(not re.search("[0-9a-fA-F]{1,}",v)):
-      print("Value must be a valid Hex-String!")
-      sys.exit(2)
+      sys.exit("Value must be a valid Hex-String!")
     
   #Eine Null links anhängen falls Länge ungerade
   if(len(sys.argv[1]) % 2 == 1):
     sys.argv[1] = '0' + sys.argv[1]
 
-  print("Password: 0x"+sys.argv[1])
+  print("Password: 0x"+sys.argv[1][0:6]) #Nur von 0 bis 6 anzeigen da nur das verwendet wird
 
   #Passwort in Integerarray umwandeln
   password = strtoarray(sys.argv[1])
