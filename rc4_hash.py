@@ -44,7 +44,7 @@ def arraytostr(a):
 
 #Integerarray zu Hexstring
 def arraytoHexString(a):
-  h = '0x'
+  h = ""
   for num in a:
     h += "%0.2X" % num
   return h
@@ -90,4 +90,4 @@ if __name__== "__main__":
 
   #Hashen
   hash = prga(ksa(password))
-  print("Hash: "+arraytoHexString(hash))
+  print("Hash: 0x"+arraytoHexString(hash))
