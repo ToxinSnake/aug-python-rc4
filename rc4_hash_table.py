@@ -60,7 +60,7 @@ if __name__== "__main__":
     print("N =",N,"\nn =",n,"\nm =",m)    
     
     print("\n(1/3) generating start values ...")
-    startValues = generate_start_values()
+    startValues = generate_start_values(n)
     print("- done")
     #print(startValues)
     
