@@ -20,18 +20,22 @@ def generate_start_values(quantity):
 
 def generate_hashes(valueList, quantity):
     hashes = list()
+    
+    lenValList = len(valueList)
+    status = int(lenValList/20)
+    
     for value in valueList:
         hash = value
         for i in range(quantity):
             hash = rc4_hash.strtoarray(hash)
-            hash = rc4_hash.paddPass(hash)
+            #hash = rc4_hash.paddPass(hash)
             hash = rc4_hash.convertPass(hash)
             hash = rc4_hash.prga(rc4_hash.ksa(hash))
             hash = rc4_hash.arraytoHexString(hash)
         hashes.append(hash)
         #zwischendurch Status drucken 
-        if (len(hashes) % int(len(valueList)/20) == 0):
-            print(str(int(len(hashes)/len(valueList)*100))+"% ("+str(len(hashes))+" values)")
+        if (len(hashes) % status == 0):
+            print(str(int(len(hashes)/lenValList*100))+"% ("+str(len(hashes))+" values)")
     return hashes
 
 
@@ -59,8 +63,8 @@ if __name__== "__main__":
     
     print("N =",N,"\nn =",n,"\nm =",m)    
     
-    print("\n(1/3) generating start values ...")
-    startValues = generate_start_values()
+    print("\n(1/3) generate start values ...")
+    startValues = generate_start_values(20)
     print("- done")
     #print(startValues)
     
