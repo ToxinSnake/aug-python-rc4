@@ -32,7 +32,7 @@ if __name__== "__main__":
     
     findHash = sys.argv[2]
     
-    indexFound = None
+    passwordsFound = set()
     
     for i in range(256):     
         try: #Beginnen mit Indexsuche (falls schon als Endknoten bekannt)
@@ -49,10 +49,8 @@ if __name__== "__main__":
                 hash = rc4_hash.arraytoHexString(hash)
            
             if (hash == sys.argv[2]): #Nochmals prüfen (iwie notwendig?!)
-                print("PASSWORD FOUND: "+rc4_hash.arraytoHexString(password))
-                break
-            else: 
-                indexFound = None
+                passwordsFound.add(rc4_hash.arraytoHexString(password))
+                
         except(ValueError):
             pass
         finally: #sonst hashen und erneut suchen
@@ -62,7 +60,10 @@ if __name__== "__main__":
             findHash = rc4_hash.prga(rc4_hash.ksa(findHash))
             findHash = rc4_hash.arraytoHexString(findHash)
     
-    if (indexFound == None):
+    if (len(passwordsFound) > 0):
+        for password in passwordsFound:
+            print("PASSWORD FOUND: "+password)
+    else:
         print("HASH '"+sys.argv[2]+"' NOT FOUND!")
         
     sys.exit(0)
